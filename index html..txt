@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎉</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        max-width: 90%;
+        width: 400px;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #ff4081;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    button {
+        background: #ff4081;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #e73370;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 500px) {
+        h1 {
+            font-size: 1.6rem;
+        }
+        p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+    <h1>Happy Birthday cya the best!😘💕</h1>
+    <p>lots of love to u meri jaan, mera pehla aur saccha bf😘😘! 🎉✨</p>
+    <button onclick="startConfetti()">Celebrate 🎊</button>
+</div>
+
+<script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confettiPieces = [];
+
+    function randomColor() {
+        const colors = ['#ff0a54', '#ff477e', '#ff85a1', '#fbb1bd', '#f9bec7'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function createConfetti() {
+        for (let i = 0; i < 150; i++) {
+            confettiPieces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 8 + 2,
+                speed: Math.random() * 3 + 2,
+                color: randomColor()
+            });
+        }
+    }
+
+    function drawConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confettiPieces.forEach((piece) => {
+            ctx.fillStyle = piece.color;
+            ctx.fillRect(piece.x, piece.y, piece.size, piece.size);
+        });
+        updateConfetti();
+    }
+
+    function updateConfetti() {
+        confettiPieces.forEach((piece) => {
+            piece.y += piece.speed;
+            if (piece.y > canvas.height) {
+                piece.y = -10;
+                piece.x = Math.random() * canvas.width;
+            }
+        });
+    }
+
+    function animate() {
+        drawConfetti();
+        requestAnimationFrame(animate);
+    }
+
+    function startConfetti() {
+        confettiPieces = [];
+        createConfetti();
+        animate();
+    }
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+</script>
+
+</body>
+</html>
